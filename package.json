@@ -1,6 +1,6 @@
 {
     "name":            "skinny-bone-lifecycle",
-    "version":         "0.1.2",
+    "version":         "0.1.3",
     "description":     "Application lifecycle bone for skinny",
     "author":          "Geometria Lab",
     "contributors":    [
@@ -15,7 +15,7 @@
         "url":  "https://github.com/skinnyjs/skinny-bone-lifecycle.git"
     },
     "dependencies":    {
-        "co":           "3.0.5",
+        "co":           "3.0.*",
         "co-wait":      "*",
         "create-error": "0.3"
     },
