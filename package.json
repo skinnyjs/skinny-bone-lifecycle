@@ -15,7 +15,7 @@
         "url":  "https://github.com/skinnyjs/skinny-bone-lifecycle.git"
     },
     "dependencies":    {
-        "co":           "3.0.4",
+        "co":           "3.0.5",
         "co-wait":      "*",
         "create-error": "0.3"
     },
