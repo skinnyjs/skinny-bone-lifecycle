@@ -1,3 +1,5 @@
+"use strict";
+
 var co = require('co');
 var wait = require('co-wait');
 var createError = require('create-error');
@@ -5,8 +7,6 @@ var createError = require('create-error');
 var GracefulShutdownError = createError('GracefulShutdownError');
 
 function Lifecycle(skinny) {
-    "use strict";
-
     this.skinny = skinny;
 
     this.inShutdownCycle = false;
@@ -14,18 +14,14 @@ function Lifecycle(skinny) {
 }
 
 Lifecycle.prototype.start = function start() {
-    "use strict";
-
-    co(function*(){
+    co(function *(){
         yield this.skinny.listeners('*initialize');
 
         this.skinny.emit('start');
-    }).call(this);
+    }.bind(this));
 };
 
 Lifecycle.prototype.shutdown = function shutdown() {
-    "use strict";
-
     co(function *shutdown() {
         if (this.inShutdownCycle) {
             return false;
@@ -39,23 +35,23 @@ Lifecycle.prototype.shutdown = function shutdown() {
 
         // TODO: Must exit by shutdown. Why?
         process.exit(0);
-    }).call(this);
+    }.bind(this));
 };
 
 Lifecycle.prototype.callTheKiller = function callTheKiller() {
-    "use strict";
+    var killer = setTimeout(function() {
+        co(function *() {
+            var error = new GracefulShutdownError('Graceless shutdown after ' + this.deadline + ' milliseconds.');
 
-    var killer = setTimeout(co(function *() {
-        var error = new GracefulShutdownError('Graceless shutdown after ' + this.deadline + ' milliseconds.');
+            this.skinny.emit('error', error);
 
-        this.skinny.emit('error', error);
+            // Add some time for async error handlers
 
-        // Add some time for async error handlers
+            yield wait(3000);
 
-        yield wait(3000);
-
-        process.exit(1);
-    }).bind(this), this.deadline);
+            process.exit(1);
+        }.bind(this))
+    }.bind(this), this.deadline);
 
     killer.unref();
 };
