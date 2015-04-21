@@ -18,6 +18,8 @@ Lifecycle.prototype.start = function start() {
         yield this.skinny.listeners('*initialize');
 
         this.skinny.emit('start');
+    }.bind(this)).catch(function(error) {
+        this.skinny.emit('error', error);
     }.bind(this));
 };
 
@@ -35,7 +37,9 @@ Lifecycle.prototype.shutdown = function shutdown() {
 
         // TODO: Must exit by shutdown. Why?
         process.exit(0);
-    }.bind(this));
+    }.bind(this)).catch(function(error) {
+        this.skinny.emit('error', error);
+    });
 };
 
 Lifecycle.prototype.callTheKiller = function callTheKiller() {
