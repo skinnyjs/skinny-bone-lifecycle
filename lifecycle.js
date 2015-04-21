@@ -14,24 +14,26 @@ function Lifecycle(skinny) {
 }
 
 Lifecycle.prototype.start = function start() {
-    co(function *(){
+    return co(function *(){
         yield this.skinny.listeners('*initialize');
 
         this.skinny.emit('start');
     }.bind(this)).catch(function(error) {
         this.skinny.emit('error', error);
+
+        return error;
     }.bind(this));
 };
 
 Lifecycle.prototype.shutdown = function shutdown() {
-    co(function *shutdown() {
+    return co(function *shutdown() {
         if (this.inShutdownCycle) {
             return false;
         }
 
         this.inShutdownCycle = true;
 
-        this.callTheKiller();
+        this.callTheCleaner();
 
         yield this.skinny.listeners('*shutdown');
 
@@ -39,10 +41,12 @@ Lifecycle.prototype.shutdown = function shutdown() {
         process.exit(0);
     }.bind(this)).catch(function(error) {
         this.skinny.emit('error', error);
+        
+        return error;
     });
 };
 
-Lifecycle.prototype.callTheKiller = function callTheKiller() {
+Lifecycle.prototype.callTheCleaner = function callTheKiller() {
     var killer = setTimeout(function() {
         co(function *() {
             var error = new GracefulShutdownError('Graceless shutdown after ' + this.deadline + ' milliseconds.');
