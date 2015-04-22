@@ -21,7 +21,7 @@ Lifecycle.prototype.start = function start() {
     }.bind(this)).catch(function(error) {
         this.skinny.emit('error', error);
 
-        return error;
+        return Promise.reject(error);
     }.bind(this));
 };
 
@@ -42,7 +42,7 @@ Lifecycle.prototype.shutdown = function shutdown() {
     }.bind(this)).catch(function(error) {
         this.skinny.emit('error', error);
         
-        return error;
+        return Promise.reject(error);
     });
 };
 
