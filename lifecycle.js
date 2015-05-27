@@ -41,9 +41,9 @@ Lifecycle.prototype.shutdown = function shutdown() {
         process.exit(0);
     }.bind(this)).catch(function(error) {
         this.skinny.emit('error', error);
-        
+
         return Promise.reject(error);
-    });
+    }.bind(this));
 };
 
 Lifecycle.prototype.callTheCleaner = function callTheKiller() {

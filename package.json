@@ -1,8 +1,10 @@
 {
   "name": "skinny-bone-lifecycle",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Application lifecycle bone for skinny",
-  "author": "Geometria Lab",
+  "author": {
+    "name": "Geometria Lab"
+  },
   "contributors": [
     {
       "name": "Ivan Shumkov",
@@ -12,7 +14,7 @@
   "main": "./bone.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/skinnyjs/skinny-bone-lifecycle.git"
+    "url": "git+https://github.com/skinnyjs/skinny-bone-lifecycle.git"
   },
   "dependencies": {
     "co": "~4.5.1",
@@ -21,6 +23,9 @@
   },
   "devDependencies": {},
   "engines": [
-    "node >=0.12"
-  ]
+    "iojs >= 2.0"
+  ],
+  "bugs": {
+    "url": "https://github.com/skinnyjs/skinny-bone-lifecycle/issues"
+  }
 }
